@@ -16,9 +16,9 @@ class SpamProtection:
         utc_now = datetime.now()
         tz = 6  # UTC-6 / Costa Rica Time
         day_start = 9  # 9am
-        day_end = 4  # 4pm
+        day_end = 16  # 4pm
         lunch_start = 12  # 12pm
-        lunch_end = 1  # 1pm
+        lunch_end = 13  # 1pm
 
         condition = utc_now.hour < day_start + tz \
             or utc_now.hour > day_end + tz \
@@ -26,8 +26,8 @@ class SpamProtection:
 
         if condition:
             self.error = f"Hey! I'm only available from {day_start}:00 AM " \
-                         f"to {lunch_start}:00 PM and from {lunch_end}:00 " \
-                         f"PM to {day_end}:00 PM, UTC-6. Cheers! "
+                         f"to {lunch_start}:00 PM and from {lunch_end%12}:00 " \
+                         f"PM to {day_end%12}:00 PM, UTC-6. Cheers! "
 
         return condition
 
