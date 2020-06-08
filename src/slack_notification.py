@@ -11,7 +11,7 @@ def post_slack(msg):
     }
     headers = {
         'Content-Type': 'application/json;charset=utf-8',
-        'Authorization': 'Bearer {0}'.format(api_token)
+        'Authorization': f'Bearer {api_token}'
     }
     response = requests.post(url=api_url_base, headers=headers, json=data)
     return response.json()

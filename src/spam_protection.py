@@ -1,5 +1,5 @@
 import time
-import datetime
+from datetime import datetime
 from src.dynamo_operation import DynamoOperation
 
 

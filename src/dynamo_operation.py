@@ -1,3 +1,4 @@
+import os
 import boto3
 from boto3.dynamodb.conditions import Attr
 
@@ -5,7 +6,9 @@ from boto3.dynamodb.conditions import Attr
 class DynamoOperation:
     def __init__(self):
         self.dynamodb = boto3.resource('dynamodb')
-        self.table = self.dynamodb.Table('prod-noisealertreporttable')
+
+        table_name = os.environ.get("DYNAMODB_TABLE_NAME")
+        self.table = self.dynamodb.Table(table_name)
 
     def query_messages_count(self, start_time, end_time):
         """
