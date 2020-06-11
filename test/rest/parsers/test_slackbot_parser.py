@@ -1,6 +1,6 @@
 import unittest
 import jsonschema
-from src.rest.parsers.slackbot_parser import SlackbotParser
+from rest.parsers.slackbot_parser import SlackbotParser
 
 
 class TestSlackbotParser(unittest.TestCase):

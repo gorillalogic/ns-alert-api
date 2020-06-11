@@ -1,4 +1,4 @@
-from src.rest.parsers.request_parser import RequestParser
+from rest.parsers.request_parser import RequestParser
 
 
 class WinstonParser(RequestParser):

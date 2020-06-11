@@ -1,6 +1,6 @@
 import unittest
 import jsonschema
-from src.rest.parsers.winston_parser import WinstonParser
+from rest.parsers.winston_parser import WinstonParser
 
 
 class TestWinstonParser(unittest.TestCase):

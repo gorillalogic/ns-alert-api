@@ -1,15 +1,15 @@
 import json
 
 
-class WinstonBuilder:
+class GrafanaBuilder:
     def success(self, message):
         body = {
-            "message": message
+            "ok": True
         }
         return {"status_code": 200, "body": json.dumps(body)}
 
-    def error(self, error):
+    def error(self, message):
         body = {
-            "error": error
+            "ok": False
         }
         return {"status_code": 500, "body": json.dumps(body)}

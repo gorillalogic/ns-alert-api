@@ -1,5 +1,5 @@
 import unittest
-from src.rest.parsers.grafana_parser import GrafanaParser
+from rest.parsers.grafana_parser import GrafanaParser
 
 
 class TestGrafanaParser(unittest.TestCase):
