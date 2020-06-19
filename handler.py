@@ -79,6 +79,9 @@ def post_handler(event, context):
     logger.info(f"Received event: {event}")
     record = __new_dynamo_record(event)
     request_parser, response_builder = __retrieve_handlers(event)
+    logger.info(f"Using parser {request_parser.__class__.__name__}")
+    logger.info(f"Using builder {response_builder.__class__.__name__}")
+
     spam_protection = SpamProtection()
 
     if not __enabled():
