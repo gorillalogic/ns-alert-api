@@ -18,7 +18,8 @@ OFF_HOUR = "2020-01-01 23:00:00"  # or 5:00 in UTC-6
 
 ENV = {
     'enabled': 'true',
-    'SLACK_API_TOKEN': 'tok_testing',
+    'SLACK_CHANNEL': '#noise-alert-tests',
+    'SLACK_WEBHOOK_URL': 'https://example.org',
     'AWS_DEFAULT_REGION': 'us-east-1',
     'AWS_ACCESS_KEY_ID': 'testing',
     'AWS_SECRET_ACCESS_KEY': 'testing',
@@ -29,12 +30,12 @@ ENV = {
 
 
 def mock_slack():
-    responses.add(responses.POST, 'https://slack.com/api/chat.postMessage',
+    responses.add(responses.POST, ENV['SLACK_WEBHOOK_URL'],
                   json={'ok': 'true'}, status=200)
 
 
 def mock_failed_slack():
-    responses.add(responses.POST, 'https://slack.com/api/chat.postMessage',
+    responses.add(responses.POST, ENV['SLACK_WEBHOOK_URL'],
                   json={'ok': 'false'}, status=400)
 
 

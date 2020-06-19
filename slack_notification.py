@@ -3,16 +3,12 @@ import os
 
 
 def post_slack(msg):
-    api_token = os.environ.get('SLACK_API_TOKEN')
-    api_url_base = 'https://slack.com/api/chat.postMessage'
+    channel = os.environ.get('SLACK_CHANNEL')
+    webhook_url = os.environ.get('SLACK_WEBHOOK_URL')
     data = {
-        "channel": '#noise-alert-tests',
+        "channel": channel,
         "text": msg
     }
-    headers = {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Authorization': f'Bearer {api_token}'
-    }
-    json = requests.post(url=api_url_base,headers=headers, json=data).json()
+    json = requests.post(url=webhook_url, json=data).json()
 
     return json['ok'] == 'true', json
