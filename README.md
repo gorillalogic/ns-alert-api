@@ -1,6 +1,8 @@
 # ns-alert-api
 Alert API for Winston, NoiseAlert Slackbot &amp; Grafana Alerts.
 
+Deployed using Github Actions when pushed to master.
+
 ![deploy-py-lambda](https://github.com/gorillalogic/ns-alert-api/workflows/deploy-py-lambda/badge.svg)
 
 Based on previous version here:
