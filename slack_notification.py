@@ -9,6 +9,5 @@ def post_slack(msg):
         "channel": channel,
         "text": msg
     }
-    json = requests.post(url=webhook_url, json=data).json()
-
-    return json['ok'] == 'true', json
+    response = requests.post(url=webhook_url, json=data)
+    return response.status_code == 200, response

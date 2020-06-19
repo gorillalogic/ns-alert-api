@@ -49,13 +49,13 @@ def __process_request(event, request_parser):
         msg = data.get('msg', ALERTS_MSG.format(floor))
         logger.info(f"Using custom message: {msg}")
 
-        success, slack_json_response = post_slack(msg)
+        success, slack_response = post_slack(msg)
         if success:
             message = SUCCESS_MSG
-            logger.info(f"Slack status: {success} with {slack_json_response}")
+            logger.info(f"Slack status: {success} with {slack_response}")
         else:
             message = FAILURE_SLACK_MSG
-            logger.error(f"Slack status: {success} with {slack_json_response}")
+            logger.error(f"Slack status: {success} with {slack_response}")
     except Exception as err:
         success = False
         message = GENERIC_FAILURE_MSG
