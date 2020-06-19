@@ -3,7 +3,10 @@ import os
 
 
 def post_slack(msg):
-    channel = os.environ.get('SLACK_CHANNEL')
+    if os.environ.get('debug') == 'false':
+      channel = os.environ.get('SLACK_CHANNEL')
+    else:
+      channel = "#noise-alert-tests"
     webhook_url = os.environ.get('SLACK_WEBHOOK_URL')
     data = {
         "channel": channel,

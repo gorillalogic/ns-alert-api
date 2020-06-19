@@ -1,4 +1,5 @@
 import time
+import os
 
 from constants import INVALID_HOURS, SPAM_MSG
 from dynamo_operation import DynamoOperation
@@ -27,7 +28,7 @@ class SpamProtection:
         morning = day_start <= hour <= lunch_start
         afternoon = lunch_end <= hour <= day_end
 
-        condition = morning or afternoon
+        condition = morning or afternoon or os.environ.get('debug') == 'true'
 
         if not condition:
             self.error = INVALID_HOURS.format(day_start, lunch_start,
