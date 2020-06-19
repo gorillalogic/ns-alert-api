@@ -24,7 +24,10 @@ class WinstonParser(RequestParser):
         super().__init__(payload, schema)
 
     def parse(self):
-        return {
+        data = {
             "sender": self.payload["reporter"],
             "floor": self.payload["location"]["floor"]
         }
+        if "message" in self.payload:
+            data["msg"] = self.payload["message"]
+        return data

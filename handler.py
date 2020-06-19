@@ -46,7 +46,7 @@ def __process_request(event, request_parser):
         data = request_parser.parse()
         floor = data["floor"]
 
-        msg = event.get('msg', ALERTS_MSG.format(floor))
+        msg = data.get('msg', ALERTS_MSG.format(floor))
         logger.info(f"Using custom message: {msg}")
 
         success, slack_json_response = post_slack(msg)
