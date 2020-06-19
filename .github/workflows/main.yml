@@ -1,0 +1,29 @@
+name: deploy-py-lambda
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-setuptools
+        pip3 install --upgrade setuptools
+        pip3 install -r requirements.txt
+    - name: Unit Tests
+      run: python3 -m unittest discover -s test
+    - name: Deploy code to Lambda
+      uses: gorillalogic/py-lambda-action@v1.0.3
+      with:
+        lambda_layer_arn: ${{ secrets.LAMBDA_DEPENDENCIES_LAYER_ARN }}
+        lambda_function_name: ${{ secrets.LAMBDA_FUNCTION_NAME }}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}

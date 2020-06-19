@@ -1,2 +1,7 @@
 requests~=2.23.0
 jsonschema~=3.2.0
+responses~=0.10.14
+moto~=1.3.14
+mock~=4.0.2
+freezegun~=0.3.15
+boto3~=1.14.0
