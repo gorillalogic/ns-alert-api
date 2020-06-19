@@ -1,7 +1,7 @@
 import time
 import unittest
 
-from slackbot_lambda import post_handler
+from handler import post_handler
 from moto.dynamodb2 import dynamodb_backend2, mock_dynamodb2
 from mock import patch
 import os
