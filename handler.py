@@ -30,7 +30,7 @@ def __retrieve_handlers(event):
 def __new_dynamo_record(event):
     record = event
     record['DataID'] = str(uuid.uuid4())
-    record['CreatedAt'] = int(time.time() * 10000)
+    record['CreatedAt'] = int(time.time() * 1000000)
     record['Enabled'] = 1
     record['Delayed'] = 0
     return record
@@ -52,13 +52,14 @@ def __process_request(event, request_parser):
         success, slack_json_response = post_slack(msg)
         if success:
             message = SUCCESS_MSG
+            logger.info(f"Slack status: {success} with {slack_json_response}")
         else:
-            logger.error(f"Slack: {slack_json_response}")
             message = FAILURE_SLACK_MSG
+            logger.error(f"Slack status: {success} with {slack_json_response}")
     except Exception as err:
         success = False
         message = GENERIC_FAILURE_MSG
-        logger.error(f"Process Request error: {err}")
+        logger.error(f"Process Request error: {err}", exc_info=True)
     return success, message
 
 
