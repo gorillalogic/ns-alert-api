@@ -1,8 +1,12 @@
 import time
 import os
+import logging
 
 from constants import INVALID_HOURS, SPAM_MSG
 from dynamo_operation import DynamoOperation
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 class SpamProtection:
@@ -42,7 +46,9 @@ class SpamProtection:
         now = int(time.time() * 1000000)
 
         count = self.dynamo_operation.query_messages_count(start, now)
-        condition = count == 0
+        condition = (count == 0)
+
+        logging.info(f"Found {count} messages from {start} to {now}")
 
         if not condition:
             self.error = SPAM_MSG
