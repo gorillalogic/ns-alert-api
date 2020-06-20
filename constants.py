@@ -6,8 +6,8 @@ DELAYED_MSG = "Thanks for your alert! The event was recorded, but we " \
 ALERT_MSG = "*Noise Alert* We have an alert on the {0}th floor; please " \
              "consider lowering your voice."
 
-GRAFANA_ALERT_MSG = "*Noise Alert* We detected {1}dB on {0}; " \
-                    "please consider lowering your voice."
+GRAFANA_ALERT_MSG = "*Noise Alert* We detected {1}dB on sensor *{0}*. " \
+                    "Please consider lowering your voice."
 
 DISABLED_MSG = "The event was recorded but today the alerts are disabled"
 
