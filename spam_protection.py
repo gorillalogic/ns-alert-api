@@ -32,7 +32,7 @@ class SpamProtection:
         morning = day_start <= hour <= lunch_start
         afternoon = lunch_end <= hour <= day_end
 
-        condition = morning or afternoon or os.environ.get('debug') == 'true'
+        condition = morning or afternoon
 
         if not condition:
             self.error = INVALID_HOURS.format(day_start, lunch_start,
@@ -56,4 +56,6 @@ class SpamProtection:
         return condition
 
     def validate(self):
+        if os.environ.get('SPAM_PROTECTION', 'enabled') == 'disabled':
+            return True
         return self.__valid_frequency() and self.__valid_working_hours()
