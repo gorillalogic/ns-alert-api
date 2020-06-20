@@ -2,6 +2,7 @@ import logging
 import os
 import time
 import uuid
+from decimal import *
 
 # Logger
 from dynamo_operation import DynamoOperation
@@ -24,7 +25,8 @@ def __retrieve_handlers(event):
         return WinstonParser(event), WinstonBuilder()
     if 'user_name' in event:
         return SlackbotParser(event), SlackbotBuilder()
-    return GrafanaParser(event), GrafanaBuilder()
+    if 'ruleId' in event:
+        return GrafanaParser(event), GrafanaBuilder()
 
 
 def __new_dynamo_record(event):
@@ -44,10 +46,12 @@ def __process_request(event, request_parser):
     try:
         request_parser.validate()
         data = request_parser.parse()
-        floor = data["floor"]
 
-        msg = data.get('msg', ALERTS_MSG.format(floor))
-        logger.info(f"Using custom message: {msg}")
+        if 'sensor' in data:
+            msg = data.get('msg', GRAFANA_ALERT_MSG.format(data['sensor'],
+                                                           data['value']))
+        else:
+            msg = data.get('msg', ALERT_MSG.format(data['floor']))
 
         success, slack_response = post_slack(msg)
         if success:
@@ -79,22 +83,27 @@ def post_handler(event, context):
     logger.info(f"Received event: {event}")
     record = __new_dynamo_record(event)
     request_parser, response_builder = __retrieve_handlers(event)
-    logger.info(f"Using parser {request_parser.__class__.__name__}")
-    logger.info(f"Using builder {response_builder.__class__.__name__}")
 
-    spam_protection = SpamProtection()
+    if request_parser and response_builder:
+        logger.info(f"Using parser {request_parser.__class__.__name__}")
+        logger.info(f"Using builder {response_builder.__class__.__name__}")
 
-    if not __enabled():
-        record['Enabled'] = 0
-        success = False
-        message = DISABLED_MSG
-    elif spam_protection.validate():
-        success, message = __process_request(event, request_parser)
+        spam_protection = SpamProtection()
+
+        if not __enabled():
+            record['Enabled'] = 0
+            success = False
+            message = DISABLED_MSG
+        elif spam_protection.validate():
+            success, message = __process_request(event, request_parser)
+        else:
+            record['Delayed'] = 1
+            success = True
+            message = spam_protection.error
+
+        DynamoOperation().store_event(record)
     else:
-        record['Delayed'] = 1
-        success = True
-        message = spam_protection.error
-
-    DynamoOperation().store_event(record)
+        success = False
+        message = UNKNOWN_AGENT
 
     return __build_request(response_builder, message, success)

@@ -114,7 +114,23 @@ class TestSlackbotLambda(unittest.TestCase):
     def test_grafana_request(self):
         mock_slack()
         event = {
-
+            'dashboardId': 3,
+            'evalMatches': [
+                {
+                    'value': 98.2733660583899,
+                    'metric': 'Noise A',
+                    'tags': None
+                }
+            ],
+            'orgId': 1,
+            'panelId': 2,
+            'ruleId': 1,
+            'ruleName': 'Noise Magnitude Alert',
+            'ruleUrl': 'http://localhost:3000/d/GO0LFnWGk/noise-alert?tab'
+                       '=alert&editPanel=2&orgId=1',
+            'state': 'alerting',
+            'tags': {},
+            'title': '[Alerting] Noise Magnitude Alert'
         }
         response = post_handler(event, None)
         expected_response = {
