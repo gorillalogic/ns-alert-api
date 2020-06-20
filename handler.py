@@ -33,8 +33,8 @@ def __new_dynamo_record(event):
     record = event
     record['DataID'] = str(uuid.uuid4())
     record['CreatedAt'] = int(time.time() * 1000000)
-    record['Enabled'] = 1
-    record['Delayed'] = 0
+    record['Enabled'] = True
+    record['Delayed'] = False
     return record
 
 
@@ -91,13 +91,13 @@ def post_handler(event, context):
         spam_protection = SpamProtection()
 
         if not __enabled():
-            record['Enabled'] = 0
+            record['Enabled'] = True
             success = False
             message = DISABLED_MSG
         elif spam_protection.validate():
             success, message = __process_request(event, request_parser)
         else:
-            record['Delayed'] = 1
+            record['Delayed'] = False
             success = True
             message = spam_protection.error
 
