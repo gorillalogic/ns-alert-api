@@ -22,7 +22,7 @@ class GrafanaParser(RequestParser):
                 "ruleId": {"type": "integer", "enum": [1]},
                 "ruleName": {"type": "string"},
                 "ruleUrl": {"type": "string"},
-                "state": {"type": "string"},
+                "state": {"type": "string", "enum": ["alerting"]},
                 "title": {"type": "string"},
             }
         }
